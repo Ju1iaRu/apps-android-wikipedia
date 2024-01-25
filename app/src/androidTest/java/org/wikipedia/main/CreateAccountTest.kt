@@ -9,19 +9,18 @@ import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.wikipedia.BuildConfig
 import org.wikipedia.R
 import org.wikipedia.TestUtil
 
 @RunWith(AndroidJUnit4::class)
-class LoggedInTests2 {
+class CreateAccountTest {
 
     @Rule
     @JvmField
     var mActivityTestRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun loggedInTest2() {
+    fun createAccountTest() {
 
         // Skip over onboarding screens
         Espresso.onView(
@@ -64,7 +63,7 @@ class LoggedInTests2 {
             )
         )
             .perform(
-                ViewActions.replaceText("Julia"),
+                ViewActions.replaceText("testusernumberone"),
                 ViewActions.closeSoftKeyboard()
             )
 
@@ -75,9 +74,36 @@ class LoggedInTests2 {
             )
         )
             .perform(
-                ViewActions.replaceText("111111"),
+                ViewActions.replaceText("123456789"),
                 ViewActions.closeSoftKeyboard()
             )
+
+        Espresso.onView(
+            Matchers.allOf(
+                TestUtil.withGrandparent(ViewMatchers.withId(R.id.create_account_password_repeat)),
+                ViewMatchers.withClassName(Matchers.`is`("org.wikipedia.views.PlainPasteEditText"))
+            )
+        )
+            .perform(
+                ViewActions.replaceText("123456789"),
+                ViewActions.closeSoftKeyboard()
+            )
+
+        Espresso.onView(
+            Matchers.allOf(
+                TestUtil.withGrandparent(ViewMatchers.withId(R.id.create_account_email)),
+                ViewMatchers.withClassName(Matchers.`is`("org.wikipedia.views.PlainPasteEditText"))
+            )
+        )
+            .perform(
+                ViewActions.replaceText("testusernumberone@mail.com"),
+                ViewActions.closeSoftKeyboard()
+            )
+
+        // Click the next button
+        Espresso.onView(ViewMatchers.withId(R.id.create_account_submit_button))
+            .perform(ViewActions.scrollTo(), ViewActions.click())
+
         TestUtil.delay(5)
     }
 }
