@@ -55,7 +55,7 @@ class CreateAccountTest {
 
         TestUtil.delay(2)
 
-        // Type in correct username and password
+        // data creation
         Espresso.onView(
             Matchers.allOf(
                 TestUtil.withGrandparent(ViewMatchers.withId(R.id.create_account_username)),
@@ -104,6 +104,16 @@ class CreateAccountTest {
         Espresso.onView(ViewMatchers.withId(R.id.create_account_submit_button))
             .perform(ViewActions.scrollTo(), ViewActions.click())
 
-        TestUtil.delay(5)
+        TestUtil.delay(2)
+
+        // check the captcha display
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withId(R.id.captcha_tap_text),
+                ViewMatchers.withText("@string/edit_section_captcha_reload"),
+                ViewMatchers.isDisplayed()
+            )
+        )
+        TestUtil.delay(1)
     }
 }
